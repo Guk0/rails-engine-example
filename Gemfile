@@ -33,4 +33,5 @@ group :test do
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-gem 'glorgh', path: 'glorgh'
+gem 'glorgh', path: 'apps/glorgh'
+gem 'content', path: 'apps/content'
