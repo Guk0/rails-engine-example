@@ -4,12 +4,6 @@ PATH
     content (0.1.0)
       rails (~> 6.0.4, >= 6.0.4.1)
 
-PATH
-  remote: apps/glorgh
-  specs:
-    glorgh (0.1.0)
-      rails (~> 6.0.4, >= 6.0.4.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -223,6 +217,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-18
+  x86_64-darwin-21
 
 DEPENDENCIES
   bootsnap (>= 1.4.2)
@@ -230,7 +225,6 @@ DEPENDENCIES
   capybara (>= 2.15)
   content!
   devise
-  glorgh!
   jbuilder (~> 2.7)
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)
