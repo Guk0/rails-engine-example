@@ -9,14 +9,17 @@
 가장 큰 장점은 각각의 어플리케이션을 모듈로 관리할 수 있다는 점입니다. 모듈별로 각각 controller, model, views, routing 등 독립적으로 관리할 수 있습니다.
 Devise와 ActiveAdmin 등 다양한 Gem들에서 Engine을 사용합니다.
 
+<br/><br/>
 
 ## 세팅 및 주의사항
+<br/>
 
 ### new plugin
 
 rails plugin new engine_name --mountable
 
-![스크린샷 2021-12-05 오후 11.37.53.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d7cba528-593c-4683-b74f-eaf9b24575de/스크린샷_2021-12-05_오후_11.37.53.png)
+![스크린샷 2021-12-05 오후 11 37 53](https://user-images.githubusercontent.com/48615016/146956327-48c8398b-c6d5-46df-95b7-2d21b74da5db.png)
+
 
 /content/content.gemspec 안의 TODO를 아래와 같이 변경
 
@@ -75,6 +78,7 @@ content.destroy_user_session_path
 comments_path
 
 ```
+<br/><br/>
 
 ### model / migration
 
@@ -106,6 +110,8 @@ migration 파일 생성할 때만 주의하면 될 것 같다.
 
 add_column, remove_column, change_column 등에서 테이블명은 pm_districts와 같이 앞에 네임스페이스를 같이 적어준다,
 
+<br/><br/>
+
 ### rails console
 ```ruby
 irb> Content::Comment.find(1)
@@ -117,6 +123,9 @@ irb> Content::Comment.find(1)
 ```ruby
 Content::Comment.create(user: User.first, post_id: 1, title: 1, content: 1)
 ```
+
+<br/><br/>
+
 
 ### assets
 main_app에서 파생되는 형태이면 sub_app의 layout을 main_app의 layout을 사용하는 것도 좋은 방법이다.(script, link 태그 중복 방지)
@@ -194,6 +203,9 @@ application.js
 //= require content/items
 ```
 
+<br/><br/>
+
+
 ### Application Controller
 
 ```ruby
@@ -214,6 +226,9 @@ end
 
 - ApplicationController를 완전히 분리하여도 된다. 다만 기존에 ApplicationController에 많은 variable이나 method가 들어가고 해당 요소들을 Engine에서도 사용할 것이라면 root 어플리케이션의 ApplicationController를 상속 받아 해당 Engine에서 필요한 설정들만 추가한다.
 - views의 layout도 root application의 layout을 그대로 사용한다.
+
+<br/><br/>
+
 
 ### devise
 
@@ -253,6 +268,9 @@ end
 - root 엔진의 User는 root 어플리케이션의 관계들만 가져오기 때문에 각 엔진에서 정의한 관계는 가져오지 못한다. 따라서 각 엔진에 정의된 User를 사용하기 위해 current_user를 재정의 해야한다.
 - current_user를 override하는 방법도 찾아보고 있긴한데 일단은 위와 같이 current_pm_user를 정의하여 사용한다.
 
+<br/><br/>
+
+
 ### locale
 - model 명 앞에 engine 명 + / 을 달아준다.
 
@@ -284,10 +302,15 @@ f.label :title
 I18n.t("enum.content/items.status.#{params[:status]}")
 ```
 
+<br/><br/>
+
+
 ### nested_attributes
 - nested_attributes 사용시 foreign_key를 인식하지 못하는 문제가 발생한다.
 - User - Item 관계에서 Item의 foreign_key를 user_id로 인식하기 때문
 - foreign_key: content_user_id 로 관계 제대로 명시
+
+<br/><br/>
 
 ### partial rendering
 
@@ -298,13 +321,16 @@ I18n.t("enum.content/items.status.#{params[:status]}")
 - subdomain 명을 engine명과 동일하게 설정하면 위와 같은 처리도 가능하다.
 - root application은 보통 서브도메인에 두진 않으니 request.subdomain은 ""이다.
 
-### has_many 관계
-![스크린샷 2021-12-16 오후 2.38.08.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f0de6d46-9835-47a3-8429-4c3fe68ccf8f/스크린샷_2021-12-16_오후_2.38.08.png)
 
+<br/><br/>
+
+### has_many 관계
 ```ruby
 has_many :items, foreign_key: "content_user_id"
 ```
-has_many에 있는 관계의 인스턴스들을 가져오려면 반드시 foreign_key를 설정해줘야 함. 안하면 위와같이 에러남.
+has_many에 있는 관계의 인스턴스들을 가져오려면 반드시 foreign_key를 설정해줘야 함.
+
+<br/><br/>
 
 ### const_get
 params[:target_type].constantize 으로 하면 Content 모듈이 아닌 root 모듈의 모델을 가져옴.
@@ -314,6 +340,8 @@ params[:target_type].constantize 으로 하면 Content 모듈이 아닌 root 모
 Content.const_get(params[:target_type])
 ```
 
+<br/><br/>
+
 ### resourec.class.name
 모델 name을 얻고 싶을 때 일반적으로 ```target.class.name``` 를 많이 사용하지만 engine 내에서는 target.class.name을 사용하면 앞에 네임스페이스가 붙게됨(모듈명)
 
@@ -322,6 +350,8 @@ Content.const_get(params[:target_type])
 ```ruby
 target.model_name.human
 ```
+
+<br/><br/>
 
 ### Polymorphic
 target_type을 모듈명과 같이 넣어줘야함. 
