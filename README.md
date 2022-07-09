@@ -7,7 +7,7 @@
 
 ### 장점
 가장 큰 장점은 각각의 어플리케이션을 모듈로 관리할 수 있다는 점입니다. 모듈별로 각각 controller, model, views, routing 등 독립적으로 관리할 수 있습니다.
-Devise와 ActiveAdmin 등 다양한 Gem들에서 Engine을 사용합니다.
+
 
 <br/><br/>
 
